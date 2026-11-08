@@ -1,0 +1,841 @@
+{
+  "analysis_type": "test_case_generation",
+  "summary": {
+    "total_test_cases": 21,
+    "positive_cases": 7,
+    "negative_cases": 8,
+    "security_cases": 2,
+    "integration_candidate_cases": 4
+  },
+  "test_cases": [
+    {
+      "id": "TC-001",
+      "title": "Crear recurso con datos válidos",
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "category": "positive",
+      "test_type": "functional",
+      "priority": "medium",
+      "preconditions": [
+        "Se dispone de un token de autenticación válido."
+      ],
+      "test_data": {
+        "amount": 0.01,
+        "currency": "PEN"
+      },
+      "steps": [
+        "Enviar una solicitud POST a /payments con el body indicado.",
+        "Verificar el código HTTP y la estructura de la respuesta."
+      ],
+      "expected_status_code": 201,
+      "expected_result": "La API acepta la solicitud y responde con HTTP 201.",
+      "gherkin": {
+        "given": "Se dispone de un token de autenticación válido.",
+        "when": "Enviar una solicitud POST a /payments con el body indicado.",
+        "then": "La API acepta la solicitud y responde con HTTP 201."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "createPayment",
+          "request_body",
+          "required_fields"
+        ]
+      },
+      "assumptions": [],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-002",
+      "title": "Aceptar valor mínimo de amount",
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "category": "positive",
+      "test_type": "functional",
+      "priority": "medium",
+      "preconditions": [
+        "Se dispone de un token válido."
+      ],
+      "test_data": {
+        "amount": 0.01,
+        "currency": "PEN"
+      },
+      "steps": [
+        "Enviar amount = 0.01 en /payments.",
+        "Verificar que la solicitud sea aceptada."
+      ],
+      "expected_status_code": 201,
+      "expected_result": "La API acepta amount en su valor mínimo permitido (0.01).",
+      "gherkin": {
+        "given": "Se dispone de un token válido.",
+        "when": "Enviar amount = 0.01 en /payments.",
+        "then": "La API acepta amount en su valor mínimo permitido (0.01)."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "createPayment",
+          "minimum:amount"
+        ]
+      },
+      "assumptions": [],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-003",
+      "title": "Rechazar valor inferior al mínimo de amount",
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "category": "negative",
+      "test_type": "functional",
+      "priority": "high",
+      "preconditions": [
+        "Se dispone de un token válido."
+      ],
+      "test_data": {
+        "amount": -0.99,
+        "currency": "PEN"
+      },
+      "steps": [
+        "Enviar amount = -0.99 en /payments.",
+        "Verificar el rechazo de la solicitud."
+      ],
+      "expected_status_code": 400,
+      "expected_result": "La API rechaza el valor inferior al mínimo; se espera HTTP 400.",
+      "gherkin": {
+        "given": "Se dispone de un token válido.",
+        "when": "Enviar amount = -0.99 en /payments.",
+        "then": "La API rechaza el valor inferior al mínimo; se espera HTTP 400."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "createPayment",
+          "below_minimum:amount"
+        ]
+      },
+      "assumptions": [],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-004",
+      "title": "Aceptar valor máximo de amount",
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "category": "positive",
+      "test_type": "functional",
+      "priority": "medium",
+      "preconditions": [
+        "Se dispone de un token válido."
+      ],
+      "test_data": {
+        "amount": 100000,
+        "currency": "PEN"
+      },
+      "steps": [
+        "Enviar amount = 100000 en /payments.",
+        "Verificar que la solicitud sea aceptada."
+      ],
+      "expected_status_code": 201,
+      "expected_result": "La API acepta amount en su valor máximo permitido (100000).",
+      "gherkin": {
+        "given": "Se dispone de un token válido.",
+        "when": "Enviar amount = 100000 en /payments.",
+        "then": "La API acepta amount en su valor máximo permitido (100000)."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "createPayment",
+          "maximum:amount"
+        ]
+      },
+      "assumptions": [],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-005",
+      "title": "Rechazar valor superior al máximo de amount",
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "category": "negative",
+      "test_type": "functional",
+      "priority": "high",
+      "preconditions": [
+        "Se dispone de un token válido."
+      ],
+      "test_data": {
+        "amount": 100001,
+        "currency": "PEN"
+      },
+      "steps": [
+        "Enviar amount = 100001 en /payments.",
+        "Verificar el rechazo de la solicitud."
+      ],
+      "expected_status_code": 400,
+      "expected_result": "La API rechaza el valor superior al máximo; se espera HTTP 400.",
+      "gherkin": {
+        "given": "Se dispone de un token válido.",
+        "when": "Enviar amount = 100001 en /payments.",
+        "then": "La API rechaza el valor superior al máximo; se espera HTTP 400."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "createPayment",
+          "above_maximum:amount"
+        ]
+      },
+      "assumptions": [],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-006",
+      "title": "Aceptar currency permitido: PEN",
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "category": "positive",
+      "test_type": "functional",
+      "priority": "medium",
+      "preconditions": [
+        "Se dispone de un token válido."
+      ],
+      "test_data": {
+        "amount": 0.01,
+        "currency": "PEN"
+      },
+      "steps": [
+        "Enviar currency = PEN en /payments.",
+        "Verificar que la solicitud sea aceptada."
+      ],
+      "expected_status_code": 201,
+      "expected_result": "La API acepta el valor permitido PEN para currency.",
+      "gherkin": {
+        "given": "Se dispone de un token válido.",
+        "when": "Enviar currency = PEN en /payments.",
+        "then": "La API acepta el valor permitido PEN para currency."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "createPayment",
+          "enum:currency:PEN"
+        ]
+      },
+      "assumptions": [],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-007",
+      "title": "Aceptar currency permitido: USD",
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "category": "positive",
+      "test_type": "functional",
+      "priority": "medium",
+      "preconditions": [
+        "Se dispone de un token válido."
+      ],
+      "test_data": {
+        "amount": 0.01,
+        "currency": "USD"
+      },
+      "steps": [
+        "Enviar currency = USD en /payments.",
+        "Verificar que la solicitud sea aceptada."
+      ],
+      "expected_status_code": 201,
+      "expected_result": "La API acepta el valor permitido USD para currency.",
+      "gherkin": {
+        "given": "Se dispone de un token válido.",
+        "when": "Enviar currency = USD en /payments.",
+        "then": "La API acepta el valor permitido USD para currency."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "createPayment",
+          "enum:currency:USD"
+        ]
+      },
+      "assumptions": [],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-008",
+      "title": "Rechazar valor no permitido para currency",
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "category": "negative",
+      "test_type": "functional",
+      "priority": "high",
+      "preconditions": [
+        "Se dispone de un token válido."
+      ],
+      "test_data": {
+        "amount": 0.01,
+        "currency": "VALOR_NO_PERMITIDO"
+      },
+      "steps": [
+        "Enviar currency = VALOR_NO_PERMITIDO en /payments.",
+        "Verificar el rechazo de la solicitud."
+      ],
+      "expected_status_code": 400,
+      "expected_result": "La API rechaza el valor fuera del enum; se espera HTTP 400.",
+      "gherkin": {
+        "given": "Se dispone de un token válido.",
+        "when": "Enviar currency = VALOR_NO_PERMITIDO en /payments.",
+        "then": "La API rechaza el valor fuera del enum; se espera HTTP 400."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "createPayment",
+          "enum_violation:currency"
+        ]
+      },
+      "assumptions": [],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-009",
+      "title": "Aceptar longitud máxima de description",
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "category": "positive",
+      "test_type": "functional",
+      "priority": "medium",
+      "preconditions": [
+        "Se dispone de un token válido."
+      ],
+      "test_data": {
+        "amount": 0.01,
+        "currency": "PEN",
+        "description": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "steps": [
+        "Enviar description con exactamente 140 caracteres.",
+        "Verificar que la solicitud sea aceptada."
+      ],
+      "expected_status_code": 201,
+      "expected_result": "La API acepta description con 140 caracteres.",
+      "gherkin": {
+        "given": "Se dispone de un token válido.",
+        "when": "Enviar description con exactamente 140 caracteres.",
+        "then": "La API acepta description con 140 caracteres."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "createPayment",
+          "max_length:description"
+        ]
+      },
+      "assumptions": [],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-010",
+      "title": "Rechazar longitud superior al máximo de description",
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "category": "negative",
+      "test_type": "functional",
+      "priority": "high",
+      "preconditions": [
+        "Se dispone de un token válido."
+      ],
+      "test_data": {
+        "amount": 0.01,
+        "currency": "PEN",
+        "description": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "steps": [
+        "Enviar description con 141 caracteres.",
+        "Verificar el rechazo de la solicitud."
+      ],
+      "expected_status_code": 400,
+      "expected_result": "La API rechaza description por superar 140 caracteres.",
+      "gherkin": {
+        "given": "Se dispone de un token válido.",
+        "when": "Enviar description con 141 caracteres.",
+        "then": "La API rechaza description por superar 140 caracteres."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "createPayment",
+          "max_length_exceeded:description"
+        ]
+      },
+      "assumptions": [],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-011",
+      "title": "Rechazar solicitud sin campo obligatorio amount",
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "category": "negative",
+      "test_type": "functional",
+      "priority": "high",
+      "preconditions": [
+        "Se dispone de un token válido."
+      ],
+      "test_data": {
+        "currency": "PEN"
+      },
+      "steps": [
+        "Enviar la solicitud a /payments sin el campo amount.",
+        "Verificar el rechazo de la solicitud."
+      ],
+      "expected_status_code": 400,
+      "expected_result": "La API rechaza la solicitud por ausencia de amount.",
+      "gherkin": {
+        "given": "Se dispone de un token válido.",
+        "when": "Enviar la solicitud a /payments sin el campo amount.",
+        "then": "La API rechaza la solicitud por ausencia de amount."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "createPayment",
+          "required_missing:amount"
+        ]
+      },
+      "assumptions": [],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-012",
+      "title": "Rechazar solicitud sin campo obligatorio currency",
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "category": "negative",
+      "test_type": "functional",
+      "priority": "high",
+      "preconditions": [
+        "Se dispone de un token válido."
+      ],
+      "test_data": {
+        "amount": 0.01
+      },
+      "steps": [
+        "Enviar la solicitud a /payments sin el campo currency.",
+        "Verificar el rechazo de la solicitud."
+      ],
+      "expected_status_code": 400,
+      "expected_result": "La API rechaza la solicitud por ausencia de currency.",
+      "gherkin": {
+        "given": "Se dispone de un token válido.",
+        "when": "Enviar la solicitud a /payments sin el campo currency.",
+        "then": "La API rechaza la solicitud por ausencia de currency."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "createPayment",
+          "required_missing:currency"
+        ]
+      },
+      "assumptions": [],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-013",
+      "title": "Rechazar solicitud sin credenciales de autenticación",
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "category": "security",
+      "test_type": "security",
+      "priority": "high",
+      "preconditions": [
+        "El endpoint requiere autenticación según el esquema de seguridad del contrato."
+      ],
+      "test_data": {
+        "authorization": null
+      },
+      "steps": [
+        "Enviar POST a /payments sin el encabezado Authorization.",
+        "Verificar que el acceso sea rechazado."
+      ],
+      "expected_status_code": 401,
+      "expected_result": "La API rechaza la solicitud sin token y responde HTTP 401.",
+      "gherkin": {
+        "given": "El endpoint requiere autenticación según el esquema de seguridad del contrato.",
+        "when": "Enviar POST a /payments sin el encabezado Authorization.",
+        "then": "La API rechaza la solicitud sin token y responde HTTP 401."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "createPayment",
+          "security",
+          "missing_bearer_token"
+        ]
+      },
+      "assumptions": [],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-014",
+      "title": "Crear una solicitud de pago",
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "category": "integration_candidate",
+      "test_type": "integration",
+      "priority": "medium",
+      "preconditions": [
+        "El usuario está autenticado y tiene permisos para crear pagos",
+        "El usuario está en el camino correcto para crear una solicitud de pago"
+      ],
+      "test_data": {
+        "amount": 0.01,
+        "currency": "PEN"
+      },
+      "steps": [
+        "El usuario envía un POST request a la ruta '/payments' con el cuerpo { \"amount\": 100, \"currency\": \"USD\" }",
+        "El API Gateway envía la solicitud a la instancia de PaymentService"
+      ],
+      "expected_status_code": null,
+      "expected_result": "La instancia de PaymentService crea una solicitud de pago con el ID generado y el estado \"PENDING\"",
+      "gherkin": {
+        "given": "El usuario está autenticado y tiene permisos para crear pagos",
+        "when": "El usuario envía un POST request a la ruta '/payments' con el cuerpo { \"amount\": 100, \"currency\": \"USD\" }",
+        "then": "La instancia de PaymentService crea una solicitud de pago con el ID generado y el estado \"PENDING\""
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "createPayment",
+          "architecture_diagram",
+          "candidate_service:PaymentService"
+        ]
+      },
+      "assumptions": [
+        "El servicio PaymentService es una correlación candidata y requiere confirmación.",
+        "Validar con arquitectura o con el equipo responsable cualquier interacción no confirmada."
+      ],
+      "contract_violations": [],
+      "requires_review": true,
+      "architecture_evidence": [
+        "La instancia de PaymentService crea una solicitud de pago con el ID generado y el estado \"PENDING\"",
+        "La instancia de PaymentService envía una respuesta con el ID generado y el estado \"PENDING\""
+      ]
+    },
+    {
+      "id": "TC-015",
+      "title": "Crear una solicitud de pago con un monto mayor al límite máximo",
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "category": "integration_candidate",
+      "test_type": "integration",
+      "priority": "medium",
+      "preconditions": [
+        "El usuario está autenticado y tiene permisos para crear pagos",
+        "El usuario está en el camino correcto para crear una solicitud de pago"
+      ],
+      "test_data": {
+        "amount": 0.01,
+        "currency": "PEN"
+      },
+      "steps": [
+        "El usuario envía un POST request a la ruta '/payments' con el cuerpo { \"amount\": 100001, \"currency\": \"USD\" }",
+        "El API Gateway envía la solicitud a la instancia de PaymentService"
+      ],
+      "expected_status_code": null,
+      "expected_result": "La instancia de PaymentService devuelve un código de error 400 con el mensaje \"Invalid request\"",
+      "gherkin": {
+        "given": "El usuario está autenticado y tiene permisos para crear pagos",
+        "when": "El usuario envía un POST request a la ruta '/payments' con el cuerpo { \"amount\": 100001, \"currency\": \"USD\" }",
+        "then": "La instancia de PaymentService devuelve un código de error 400 con el mensaje \"Invalid request\""
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "createPayment",
+          "architecture_diagram",
+          "candidate_service:PaymentService"
+        ]
+      },
+      "assumptions": [
+        "El servicio PaymentService es una correlación candidata y requiere confirmación.",
+        "Validar con arquitectura o con el equipo responsable cualquier interacción no confirmada."
+      ],
+      "contract_violations": [],
+      "requires_review": true,
+      "architecture_evidence": [
+        "La instancia de PaymentService devuelve un código de error 400 con el mensaje \"Invalid request\"",
+        "La instancia de PaymentService envía una respuesta con el código de error 400 y el mensaje \"Invalid request\""
+      ]
+    },
+    {
+      "id": "TC-016",
+      "title": "Consultar recurso existente con paymentId válido",
+      "endpoint": "GET /payments/{paymentId}",
+      "operation_id": "getPayment",
+      "category": "positive",
+      "test_type": "functional",
+      "priority": "medium",
+      "preconditions": [
+        "Existe un recurso asociado al UUID utilizado.",
+        "Se dispone de un token válido."
+      ],
+      "test_data": {
+        "paymentId": "550e8400-e29b-41d4-a716-446655440000"
+      },
+      "steps": [
+        "Enviar GET a /payments/550e8400-e29b-41d4-a716-446655440000.",
+        "Verificar la respuesta y el código HTTP."
+      ],
+      "expected_status_code": 200,
+      "expected_result": "La API devuelve el recurso y responde HTTP 200.",
+      "gherkin": {
+        "given": "Existe un recurso asociado al UUID utilizado.",
+        "when": "Enviar GET a /payments/550e8400-e29b-41d4-a716-446655440000.",
+        "then": "La API devuelve el recurso y responde HTTP 200."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "getPayment",
+          "format:paymentId:uuid"
+        ]
+      },
+      "assumptions": [
+        "El UUID de prueba debe estar previamente registrado en el entorno."
+      ],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-017",
+      "title": "Consultar recurso inexistente con paymentId válido",
+      "endpoint": "GET /payments/{paymentId}",
+      "operation_id": "getPayment",
+      "category": "negative",
+      "test_type": "functional",
+      "priority": "high",
+      "preconditions": [
+        "El UUID tiene formato válido, pero no está registrado.",
+        "Se dispone de un token válido."
+      ],
+      "test_data": {
+        "paymentId": "550e8400-e29b-41d4-a716-446655440099"
+      },
+      "steps": [
+        "Enviar GET a /payments/550e8400-e29b-41d4-a716-446655440099.",
+        "Verificar la respuesta de recurso no encontrado."
+      ],
+      "expected_status_code": 404,
+      "expected_result": "La API responde HTTP 404 porque el recurso no existe.",
+      "gherkin": {
+        "given": "El UUID tiene formato válido, pero no está registrado.",
+        "when": "Enviar GET a /payments/550e8400-e29b-41d4-a716-446655440099.",
+        "then": "La API responde HTTP 404 porque el recurso no existe."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "getPayment",
+          "not_found:paymentId"
+        ]
+      },
+      "assumptions": [],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-018",
+      "title": "Rechazar formato UUID inválido en paymentId",
+      "endpoint": "GET /payments/{paymentId}",
+      "operation_id": "getPayment",
+      "category": "negative",
+      "test_type": "functional",
+      "priority": "high",
+      "preconditions": [
+        "Se dispone de un token válido."
+      ],
+      "test_data": {
+        "paymentId": "not-a-valid-uuid"
+      },
+      "steps": [
+        "Enviar GET a /payments/not-a-valid-uuid.",
+        "Verificar que la API rechace el parámetro."
+      ],
+      "expected_status_code": null,
+      "expected_result": "La API rechaza el formato UUID inválido; el contrato no documenta el código HTTP.",
+      "gherkin": {
+        "given": "Se dispone de un token válido.",
+        "when": "Enviar GET a /payments/not-a-valid-uuid.",
+        "then": "La API rechaza el formato UUID inválido; el contrato no documenta el código HTTP."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "getPayment",
+          "invalid_format:paymentId:uuid"
+        ]
+      },
+      "assumptions": [
+        "El contrato no documenta el código HTTP para UUID inválido."
+      ],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-019",
+      "title": "Rechazar solicitud sin credenciales de autenticación",
+      "endpoint": "GET /payments/{paymentId}",
+      "operation_id": "getPayment",
+      "category": "security",
+      "test_type": "security",
+      "priority": "high",
+      "preconditions": [
+        "El endpoint requiere autenticación según el esquema de seguridad del contrato."
+      ],
+      "test_data": {
+        "authorization": null
+      },
+      "steps": [
+        "Enviar GET a /payments/{paymentId} sin el encabezado Authorization.",
+        "Verificar que el acceso sea rechazado."
+      ],
+      "expected_status_code": null,
+      "expected_result": "La API rechaza la solicitud sin credenciales; el contrato no documenta HTTP 401.",
+      "gherkin": {
+        "given": "El endpoint requiere autenticación según el esquema de seguridad del contrato.",
+        "when": "Enviar GET a /payments/{paymentId} sin el encabezado Authorization.",
+        "then": "La API rechaza la solicitud sin credenciales; el contrato no documenta HTTP 401."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "getPayment",
+          "security",
+          "missing_bearer_token"
+        ]
+      },
+      "assumptions": [
+        "El contrato no documenta un código HTTP 401."
+      ],
+      "contract_violations": []
+    },
+    {
+      "id": "TC-020",
+      "title": "Prueba de integración de la API de pagos",
+      "endpoint": "GET /payments/{paymentId}",
+      "operation_id": "getPayment",
+      "category": "integration_candidate",
+      "test_type": "integration",
+      "priority": "medium",
+      "preconditions": [
+        "El usuario debe estar autenticado y tener permisos para acceder a la API de pagos.",
+        "El ID de pago debe ser válido y existente en la base de datos de pagos.",
+        "La API de pagos debe estar disponible y funcionando correctamente."
+      ],
+      "test_data": {
+        "paymentId": "550e8400-e29b-41d4-a716-446655440000"
+      },
+      "steps": [
+        "1. El usuario llama a la API de pagos con el ID de pago válido en el parámetro 'paymentId'.",
+        "2. La API de pagos verifica el ID de pago en la base de datos de pagos.",
+        "3. La API de pagos devuelve la información del pago, incluyendo el monto, la moneda, el ID del pago y el estado del pago.",
+        "4. El usuario verifica la respuesta de la API para confirmar que el ID de pago existe y que el estado del pago es correcto."
+      ],
+      "expected_status_code": null,
+      "expected_result": "La API de pagos devuelve la información del pago correcta, incluyendo el monto, la moneda, el ID del pago y el estado del pago.",
+      "gherkin": {
+        "given": "El usuario debe estar autenticado y tener permisos para acceder a la API de pagos.",
+        "when": "1. El usuario llama a la API de pagos con el ID de pago válido en el parámetro 'paymentId'.",
+        "then": "La API de pagos devuelve la información del pago correcta, incluyendo el monto, la moneda, el ID del pago y el estado del pago."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "getPayment",
+          "architecture_diagram",
+          "candidate_service:PaymentService"
+        ]
+      },
+      "assumptions": [
+        "El servicio PaymentService es una correlación candidata y requiere confirmación.",
+        "Validar con arquitectura o con el equipo responsable cualquier interacción no confirmada."
+      ],
+      "contract_violations": [],
+      "requires_review": true,
+      "architecture_evidence": [
+        "La respuesta de la API contiene el monto, la moneda, el ID del pago y el estado del pago.",
+        "La respuesta de la API indica que el ID de pago existe y que el estado del pago es correcto."
+      ]
+    },
+    {
+      "id": "TC-021",
+      "title": "Prueba de recuperación de datos de pago",
+      "endpoint": "GET /payments/{paymentId}",
+      "operation_id": "getPayment",
+      "category": "integration_candidate",
+      "test_type": "integration",
+      "priority": "medium",
+      "preconditions": [
+        "El usuario debe estar autenticado y tener permisos para acceder a la API de pagos.",
+        "El ID de pago debe ser válido y existente en la base de datos de pagos.",
+        "La API de pagos debe estar disponible y funcionando correctamente."
+      ],
+      "test_data": {
+        "paymentId": "550e8400-e29b-41d4-a716-446655440000"
+      },
+      "steps": [
+        "1. El usuario llama a la API de pagos con el ID de pago válido en el parámetro 'paymentId'.",
+        "2. La API de pagos verifica el ID de pago en la base de datos de pagos.",
+        "3. La API de pagos devuelve la información del pago, incluyendo el monto, la moneda, el ID del pago y el estado del pago.",
+        "4. El usuario verifica la respuesta de la API para confirmar que el ID de pago existe y que el estado del pago es correcto.",
+        "5. El usuario llama a la API de pagos con el ID de pago válido en el parámetro 'paymentId' para recuperar los datos del pago."
+      ],
+      "expected_status_code": null,
+      "expected_result": "La API de pagos devuelve la información del pago correcta, incluyendo el monto, la moneda, el ID del pago y el estado del pago.",
+      "gherkin": {
+        "given": "El usuario debe estar autenticado y tener permisos para acceder a la API de pagos.",
+        "when": "1. El usuario llama a la API de pagos con el ID de pago válido en el parámetro 'paymentId'.",
+        "then": "La API de pagos devuelve la información del pago correcta, incluyendo el monto, la moneda, el ID del pago y el estado del pago."
+      },
+      "source": {
+        "artifact": "openapi",
+        "elements": [
+          "getPayment",
+          "architecture_diagram",
+          "candidate_service:PaymentService"
+        ]
+      },
+      "assumptions": [
+        "El servicio PaymentService es una correlación candidata y requiere confirmación.",
+        "Validar con arquitectura o con el equipo responsable cualquier interacción no confirmada."
+      ],
+      "contract_violations": [],
+      "requires_review": true,
+      "architecture_evidence": [
+        "La respuesta de la API contiene el monto, la moneda, el ID del pago y el estado del pago.",
+        "La respuesta de la API indica que el ID de pago existe y que el estado del pago es correcto."
+      ]
+    }
+  ],
+  "coverage": {
+    "operations_analyzed": [
+      "createPayment",
+      "getPayment"
+    ],
+    "operations_with_test_cases": [
+      "createPayment",
+      "getPayment"
+    ],
+    "uncovered_operations": [],
+    "coverage_type": "design_coverage_not_execution_coverage"
+  },
+  "assumptions": [
+    "Los datos de prueba que requieren registros existentes deben prepararse en el entorno.",
+    "Los códigos HTTP esperados se incluyen únicamente cuando están documentados en OpenAPI."
+  ],
+  "limitations": [
+    "La generación funcional se basa en restricciones estructurales extraídas del contrato OpenAPI.",
+    "No se infieren reglas de negocio que no estén documentadas.",
+    "Los casos generados no han sido ejecutados contra la API.",
+    "Los escenarios de integración propuestos por IA requieren revisión cuando la correlación no está confirmada."
+  ]
+}

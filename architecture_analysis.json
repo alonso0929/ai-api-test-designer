@@ -1,0 +1,140 @@
+{
+  "analysis_type": "architecture_diagram",
+  "model": "qwen2.5vl:3b",
+  "summary": "A microservices architecture with a user interacting with an API Gateway, which routes requests to AuthService, OrderService, and PaymentService. Each service interacts with its respective database.",
+  "components": [
+    {
+      "id": "User",
+      "name": "User",
+      "type": "actor",
+      "description": "A user interacting with the system",
+      "confidence": null,
+      "evidence": "Label on the top of the diagram"
+    },
+    {
+      "id": "API-Gateway",
+      "name": "API-Gateway",
+      "type": "gateway",
+      "description": "A gateway that routes requests to different services",
+      "confidence": null,
+      "evidence": "Label on the diagram"
+    },
+    {
+      "id": "AuthService",
+      "name": "AuthService",
+      "type": "service",
+      "description": "A service for authentication",
+      "confidence": null,
+      "evidence": "Label on the diagram"
+    },
+    {
+      "id": "OrderService",
+      "name": "OrderService",
+      "type": "service",
+      "description": "A service for managing orders",
+      "confidence": null,
+      "evidence": "Label on the diagram"
+    },
+    {
+      "id": "PaymentService",
+      "name": "PaymentService",
+      "type": "service",
+      "description": "A service for handling payments",
+      "confidence": null,
+      "evidence": "Label on the diagram"
+    },
+    {
+      "id": "AuthDB",
+      "name": "AuthDB",
+      "type": "database",
+      "description": "A database for authentication",
+      "confidence": null,
+      "evidence": "Label on the diagram"
+    },
+    {
+      "id": "OrderDB",
+      "name": "OrderDB",
+      "type": "database",
+      "description": "A database for managing orders",
+      "confidence": null,
+      "evidence": "Label on the diagram"
+    },
+    {
+      "id": "PaymentDB",
+      "name": "PaymentDB",
+      "type": "database",
+      "description": "A database for handling payments",
+      "confidence": null,
+      "evidence": "Label on the diagram"
+    }
+  ],
+  "connections": [
+    {
+      "source": "User",
+      "target": "API-Gateway",
+      "relationship": "interacts_with",
+      "protocol": null,
+      "direction": "one_way",
+      "confidence": null,
+      "evidence": "Arrow from User to API-Gateway"
+    },
+    {
+      "source": "API-Gateway",
+      "target": "AuthService",
+      "relationship": "routes_to",
+      "protocol": null,
+      "direction": "one_way",
+      "confidence": null,
+      "evidence": "Arrow from API-Gateway to AuthService"
+    },
+    {
+      "source": "API-Gateway",
+      "target": "OrderService",
+      "relationship": "routes_to",
+      "protocol": null,
+      "direction": "one_way",
+      "confidence": null,
+      "evidence": "Arrow from API-Gateway to OrderService"
+    },
+    {
+      "source": "API-Gateway",
+      "target": "PaymentService",
+      "relationship": "routes_to",
+      "protocol": null,
+      "direction": "one_way",
+      "confidence": null,
+      "evidence": "Arrow from API-Gateway to PaymentService"
+    },
+    {
+      "source": "AuthService",
+      "target": "AuthDB",
+      "relationship": "writes_to",
+      "protocol": null,
+      "direction": "one_way",
+      "confidence": null,
+      "evidence": "Arrow from AuthService to AuthDB"
+    },
+    {
+      "source": "OrderService",
+      "target": "OrderDB",
+      "relationship": "writes_to",
+      "protocol": null,
+      "direction": "one_way",
+      "confidence": null,
+      "evidence": "Arrow from OrderService to OrderDB"
+    },
+    {
+      "source": "PaymentService",
+      "target": "PaymentDB",
+      "relationship": "writes_to",
+      "protocol": null,
+      "direction": "one_way",
+      "confidence": null,
+      "evidence": "Arrow from PaymentService to PaymentDB"
+    }
+  ],
+  "external_dependencies": [],
+  "ambiguities": [],
+  "warnings": [],
+  "quality_note": "Model interpretations must be reviewed against the original diagram. Visual connections do not prove protocols, business rules, or implementation details."
+}

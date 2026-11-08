@@ -1,0 +1,1373 @@
+{
+  "analysis_type": "consolidated_test_design_report",
+  "report_version": "1.0",
+  "generated_at_utc": "2026-11-08T05:50:58.326049+00:00",
+  "report_semantics": "design_analysis_not_test_execution",
+  "contract": {
+    "title": "Payments API",
+    "version": "1.0.0",
+    "openapi_version": "3.0.3",
+    "validation": {
+      "valid": true,
+      "validator": "openapi-spec-validator",
+      "errors": []
+    },
+    "inventory": {
+      "endpoint_count": 2,
+      "method_counts": {
+        "GET": 1,
+        "POST": 1
+      },
+      "tags": [
+        "Payments"
+      ],
+      "parameter_count": 1,
+      "request_body_property_count": 3,
+      "response_status_codes": [
+        "200",
+        "201",
+        "400",
+        "401",
+        "404"
+      ],
+      "secured_operation_count": 2,
+      "deprecated_operation_count": 0
+    },
+    "operations": [
+      {
+        "operation_id": "createPayment",
+        "method": "POST",
+        "path": "/payments",
+        "summary": "Create a payment",
+        "deprecated": false
+      },
+      {
+        "operation_id": "getPayment",
+        "method": "GET",
+        "path": "/payments/{paymentId}",
+        "summary": "",
+        "deprecated": false
+      }
+    ]
+  },
+  "architecture": {
+    "analysis_type": "architecture_diagram",
+    "model": "qwen2.5vl:3b",
+    "summary": "A microservices architecture diagram showing a user interacting with an API Gateway, which in turn routes requests to AuthService, OrderService, and PaymentService. Each service interacts with its respective database.",
+    "component_count": 8,
+    "connection_count": 7,
+    "components": [
+      {
+        "id": "User",
+        "name": "User",
+        "type": "actor",
+        "description": "A user interacting with the system",
+        "confidence": null,
+        "evidence": "Label on the top of the diagram"
+      },
+      {
+        "id": "API-Gateway",
+        "name": "API-Gateway",
+        "type": "gateway",
+        "description": "A gateway that routes requests to different services",
+        "confidence": null,
+        "evidence": "Central node connecting to other services"
+      },
+      {
+        "id": "AuthService",
+        "name": "AuthService",
+        "type": "service",
+        "description": "A service for authentication",
+        "confidence": null,
+        "evidence": "Node connected to the API-Gateway"
+      },
+      {
+        "id": "AuthDB",
+        "name": "AuthDB",
+        "type": "database",
+        "description": "A database for authentication",
+        "confidence": null,
+        "evidence": "Node connected to AuthService"
+      },
+      {
+        "id": "OrderService",
+        "name": "OrderService",
+        "type": "service",
+        "description": "A service for managing orders",
+        "confidence": null,
+        "evidence": "Node connected to the API-Gateway"
+      },
+      {
+        "id": "OrderDB",
+        "name": "OrderDB",
+        "type": "database",
+        "description": "A database for orders",
+        "confidence": null,
+        "evidence": "Node connected to OrderService"
+      },
+      {
+        "id": "PaymentService",
+        "name": "PaymentService",
+        "type": "service",
+        "description": "A service for handling payments",
+        "confidence": null,
+        "evidence": "Node connected to the API-Gateway"
+      },
+      {
+        "id": "PaymentDB",
+        "name": "PaymentDB",
+        "type": "database",
+        "description": "A database for payments",
+        "confidence": null,
+        "evidence": "Node connected to PaymentService"
+      }
+    ],
+    "connections": [
+      {
+        "source": "User",
+        "target": "API-Gateway",
+        "relationship": "unknown",
+        "protocol": null,
+        "direction": "unknown",
+        "confidence": null,
+        "evidence": "No arrow from User to API-Gateway"
+      },
+      {
+        "source": "API-Gateway",
+        "target": "AuthService",
+        "relationship": "routes_to",
+        "protocol": null,
+        "direction": "one_way",
+        "confidence": null,
+        "evidence": "Arrow from API-Gateway to AuthService"
+      },
+      {
+        "source": "API-Gateway",
+        "target": "OrderService",
+        "relationship": "routes_to",
+        "protocol": null,
+        "direction": "one_way",
+        "confidence": null,
+        "evidence": "Arrow from API-Gateway to OrderService"
+      },
+      {
+        "source": "API-Gateway",
+        "target": "PaymentService",
+        "relationship": "routes_to",
+        "protocol": null,
+        "direction": "one_way",
+        "confidence": null,
+        "evidence": "Arrow from API-Gateway to PaymentService"
+      },
+      {
+        "source": "AuthService",
+        "target": "AuthDB",
+        "relationship": "writes_to",
+        "protocol": null,
+        "direction": "unknown",
+        "confidence": null,
+        "evidence": "Arrow from AuthService to AuthDB"
+      },
+      {
+        "source": "OrderService",
+        "target": "OrderDB",
+        "relationship": "writes_to",
+        "protocol": null,
+        "direction": "unknown",
+        "confidence": null,
+        "evidence": "Arrow from OrderService to OrderDB"
+      },
+      {
+        "source": "PaymentService",
+        "target": "PaymentDB",
+        "relationship": "writes_to",
+        "protocol": null,
+        "direction": "unknown",
+        "confidence": null,
+        "evidence": "Arrow from PaymentService to PaymentDB"
+      }
+    ],
+    "ambiguities": [],
+    "warnings": [],
+    "quality_note": "Model interpretations must be reviewed against the original diagram. Visual connections do not prove protocols, business rules, or implementation details."
+  },
+  "correlation": {
+    "summary": {
+      "total_operations": 2,
+      "total_services": 3,
+      "total_endpoint_service_mappings": 2,
+      "confirmed_mappings": 0,
+      "candidate_mappings": 2,
+      "unmapped_endpoints": 0,
+      "unmapped_services": 2,
+      "unmapped_architecture_components": 2
+    },
+    "endpoint_service_mappings": [
+      {
+        "endpoint": "POST /payments",
+        "operation_id": "createPayment",
+        "candidate_service": "PaymentService",
+        "match_method": "name_tag_path_similarity",
+        "match_status": "candidate",
+        "evidence": [
+          "Token overlap 'payment' between service 'PaymentService' and '/payments'.",
+          "Token overlap 'payment' between service 'PaymentService' and 'createPayment'.",
+          "Token overlap 'payment' between service 'PaymentService' and 'Payments'."
+        ],
+        "requires_review": true,
+        "score": 0.95,
+        "score_interpretation": "heuristic_match_score"
+      },
+      {
+        "endpoint": "GET /payments/{paymentId}",
+        "operation_id": "getPayment",
+        "candidate_service": "PaymentService",
+        "match_method": "name_tag_path_similarity",
+        "match_status": "candidate",
+        "evidence": [
+          "Token overlap 'payment' between service 'PaymentService' and '/payments/{paymentId}'.",
+          "Token overlap 'payment' between service 'PaymentService' and 'getPayment'.",
+          "Token overlap 'payment' between service 'PaymentService' and 'Payments'."
+        ],
+        "requires_review": true,
+        "score": 0.95,
+        "score_interpretation": "heuristic_match_score"
+      }
+    ],
+    "service_dependencies": [
+      {
+        "service": "AuthService",
+        "dependency": "AuthDB",
+        "dependency_type": "database",
+        "relationship": "writes_to",
+        "direction": "unknown",
+        "source": "architecture_diagram",
+        "evidence": "Arrow from AuthService to AuthDB",
+        "requires_review": true
+      },
+      {
+        "service": "OrderService",
+        "dependency": "OrderDB",
+        "dependency_type": "database",
+        "relationship": "writes_to",
+        "direction": "unknown",
+        "source": "architecture_diagram",
+        "evidence": "Arrow from OrderService to OrderDB",
+        "requires_review": true
+      },
+      {
+        "service": "PaymentService",
+        "dependency": "PaymentDB",
+        "dependency_type": "database",
+        "relationship": "writes_to",
+        "direction": "unknown",
+        "source": "architecture_diagram",
+        "evidence": "Arrow from PaymentService to PaymentDB",
+        "requires_review": true
+      }
+    ],
+    "unmapped_elements": {
+      "endpoints": [],
+      "services": [
+        "AuthService",
+        "OrderService"
+      ],
+      "architecture_components": [
+        "API-Gateway",
+        "User"
+      ]
+    },
+    "ambiguities": [
+      {
+        "element": "POST /payments",
+        "candidate": "PaymentService",
+        "reason": "Name/tag/path similarity does not prove service ownership."
+      },
+      {
+        "element": "GET /payments/{paymentId}",
+        "candidate": "PaymentService",
+        "reason": "Name/tag/path similarity does not prove service ownership."
+      }
+    ],
+    "warnings": [
+      "OpenAPI analysis_type was inferred from the input structure."
+    ],
+    "quality_note": "Candidate mappings are heuristic, not proof of implementation ownership. A database arrow indicates a dependency but does not prove read/write semantics."
+  },
+  "test_design": {
+    "summary": {
+      "total_test_cases": 21,
+      "positive_cases": 7,
+      "negative_cases": 8,
+      "security_cases": 2,
+      "integration_candidate_cases": 4
+    },
+    "category_counts": {
+      "positive": 7,
+      "negative": 8,
+      "security": 2,
+      "integration_candidate": 4
+    },
+    "test_type_counts": {
+      "functional": 15,
+      "security": 2,
+      "integration": 4
+    },
+    "test_cases": [
+      {
+        "id": "TC-001",
+        "title": "Crear recurso con datos válidos",
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "category": "positive",
+        "test_type": "functional",
+        "priority": "medium",
+        "expected_status_code": 201,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:response:201"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-002",
+        "title": "Aceptar valor mínimo de amount",
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "category": "positive",
+        "test_type": "functional",
+        "priority": "medium",
+        "expected_status_code": 201,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:amount:minimum",
+          "createPayment:response:201"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-003",
+        "title": "Rechazar valor inferior al mínimo de amount",
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "category": "negative",
+        "test_type": "functional",
+        "priority": "high",
+        "expected_status_code": 400,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:amount:minimum",
+          "createPayment:response:400"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-004",
+        "title": "Aceptar valor máximo de amount",
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "category": "positive",
+        "test_type": "functional",
+        "priority": "medium",
+        "expected_status_code": 201,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:amount:maximum",
+          "createPayment:response:201"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-005",
+        "title": "Rechazar valor superior al máximo de amount",
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "category": "negative",
+        "test_type": "functional",
+        "priority": "high",
+        "expected_status_code": 400,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:amount:maximum",
+          "createPayment:response:400"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-006",
+        "title": "Aceptar currency permitido: PEN",
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "category": "positive",
+        "test_type": "functional",
+        "priority": "medium",
+        "expected_status_code": 201,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:currency:enum",
+          "createPayment:response:201"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-007",
+        "title": "Aceptar currency permitido: USD",
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "category": "positive",
+        "test_type": "functional",
+        "priority": "medium",
+        "expected_status_code": 201,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:currency:enum",
+          "createPayment:response:201"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-008",
+        "title": "Rechazar valor no permitido para currency",
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "category": "negative",
+        "test_type": "functional",
+        "priority": "high",
+        "expected_status_code": 400,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:currency:enum",
+          "createPayment:response:400"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-009",
+        "title": "Aceptar longitud máxima de description",
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "category": "positive",
+        "test_type": "functional",
+        "priority": "medium",
+        "expected_status_code": 201,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:description:max_length",
+          "createPayment:response:201"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-010",
+        "title": "Rechazar longitud superior al máximo de description",
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "category": "negative",
+        "test_type": "functional",
+        "priority": "high",
+        "expected_status_code": 400,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:description:max_length",
+          "createPayment:response:400"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-011",
+        "title": "Rechazar solicitud sin campo obligatorio amount",
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "category": "negative",
+        "test_type": "functional",
+        "priority": "high",
+        "expected_status_code": 400,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:request_property:amount",
+          "createPayment:response:400"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-012",
+        "title": "Rechazar solicitud sin campo obligatorio currency",
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "category": "negative",
+        "test_type": "functional",
+        "priority": "high",
+        "expected_status_code": 400,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:request_property:currency",
+          "createPayment:response:400"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-013",
+        "title": "Rechazar solicitud sin credenciales de autenticación",
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "category": "security",
+        "test_type": "security",
+        "priority": "high",
+        "expected_status_code": 401,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:response:401",
+          "createPayment:security"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-014",
+        "title": "Crear una solicitud de pago",
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "category": "integration_candidate",
+        "test_type": "integration",
+        "priority": "medium",
+        "expected_status_code": null,
+        "traceability_status": "architecture_candidate_requires_review",
+        "contract_element_ids": [
+          "createPayment:operation"
+        ],
+        "requires_architecture_review": true
+      },
+      {
+        "id": "TC-015",
+        "title": "Crear una solicitud de pago con un monto mayor al límite máximo",
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "category": "integration_candidate",
+        "test_type": "integration",
+        "priority": "medium",
+        "expected_status_code": null,
+        "traceability_status": "architecture_candidate_requires_review",
+        "contract_element_ids": [
+          "createPayment:operation"
+        ],
+        "requires_architecture_review": true
+      },
+      {
+        "id": "TC-016",
+        "title": "Consultar recurso existente con paymentId válido",
+        "operation_id": "getPayment",
+        "endpoint": "GET /payments/{paymentId}",
+        "category": "positive",
+        "test_type": "functional",
+        "priority": "medium",
+        "expected_status_code": 200,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "getPayment:operation",
+          "getPayment:parameter:path:paymentId",
+          "getPayment:parameter:paymentId:format:uuid",
+          "getPayment:response:200"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-017",
+        "title": "Consultar recurso inexistente con paymentId válido",
+        "operation_id": "getPayment",
+        "endpoint": "GET /payments/{paymentId}",
+        "category": "negative",
+        "test_type": "functional",
+        "priority": "high",
+        "expected_status_code": 404,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "getPayment:operation",
+          "getPayment:response:404"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-018",
+        "title": "Rechazar formato UUID inválido en paymentId",
+        "operation_id": "getPayment",
+        "endpoint": "GET /payments/{paymentId}",
+        "category": "negative",
+        "test_type": "functional",
+        "priority": "high",
+        "expected_status_code": null,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "getPayment:operation",
+          "getPayment:parameter:path:paymentId",
+          "getPayment:parameter:paymentId:format:uuid"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-019",
+        "title": "Rechazar solicitud sin credenciales de autenticación",
+        "operation_id": "getPayment",
+        "endpoint": "GET /payments/{paymentId}",
+        "category": "security",
+        "test_type": "security",
+        "priority": "high",
+        "expected_status_code": null,
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "getPayment:operation",
+          "getPayment:security"
+        ],
+        "requires_architecture_review": false
+      },
+      {
+        "id": "TC-020",
+        "title": "Prueba de integración de la API de pagos",
+        "operation_id": "getPayment",
+        "endpoint": "GET /payments/{paymentId}",
+        "category": "integration_candidate",
+        "test_type": "integration",
+        "priority": "medium",
+        "expected_status_code": null,
+        "traceability_status": "architecture_candidate_requires_review",
+        "contract_element_ids": [
+          "getPayment:operation"
+        ],
+        "requires_architecture_review": true
+      },
+      {
+        "id": "TC-021",
+        "title": "Prueba de recuperación de datos de pago",
+        "operation_id": "getPayment",
+        "endpoint": "GET /payments/{paymentId}",
+        "category": "integration_candidate",
+        "test_type": "integration",
+        "priority": "medium",
+        "expected_status_code": null,
+        "traceability_status": "architecture_candidate_requires_review",
+        "contract_element_ids": [
+          "getPayment:operation"
+        ],
+        "requires_architecture_review": true
+      }
+    ],
+    "assumptions": [
+      "Los datos de prueba que requieren registros existentes deben prepararse en el entorno.",
+      "Los códigos HTTP esperados se incluyen únicamente cuando están documentados en OpenAPI."
+    ],
+    "limitations": [
+      "La generación funcional se basa en restricciones estructurales extraídas del contrato OpenAPI.",
+      "No se infieren reglas de negocio que no estén documentadas.",
+      "Los casos generados no han sido ejecutados contra la API.",
+      "Los escenarios de integración propuestos por IA requieren revisión cuando la correlación no está confirmada."
+    ]
+  },
+  "coverage_and_traceability": {
+    "semantics": "design_coverage_not_execution_coverage",
+    "summary": {
+      "total_test_cases": 21,
+      "confirmed_design_test_cases": 17,
+      "architecture_candidate_test_cases": 4,
+      "total_contract_design_elements": 18,
+      "covered_contract_elements": 17,
+      "candidate_only_contract_elements": 0,
+      "uncovered_contract_elements": 1,
+      "design_coverage_percent": 94.44,
+      "operation_count": 2,
+      "operations_with_at_least_one_test": 2
+    },
+    "operation_coverage": [
+      {
+        "operation_id": "createPayment",
+        "endpoint": "POST /payments",
+        "total_design_elements": 12,
+        "covered_elements": 11,
+        "candidate_only_elements": 0,
+        "uncovered_elements": 1,
+        "design_coverage_percent": 91.67,
+        "test_case_ids": [
+          "TC-001",
+          "TC-002",
+          "TC-003",
+          "TC-004",
+          "TC-005",
+          "TC-006",
+          "TC-007",
+          "TC-008",
+          "TC-009",
+          "TC-010",
+          "TC-011",
+          "TC-012",
+          "TC-013",
+          "TC-014",
+          "TC-015"
+        ],
+        "architecture_mapping_status": "candidate_requires_review",
+        "architecture_mappings": [
+          {
+            "candidate_service": "PaymentService",
+            "match_status": "candidate",
+            "score": 0.95,
+            "requires_review": true
+          }
+        ]
+      },
+      {
+        "operation_id": "getPayment",
+        "endpoint": "GET /payments/{paymentId}",
+        "total_design_elements": 6,
+        "covered_elements": 6,
+        "candidate_only_elements": 0,
+        "uncovered_elements": 0,
+        "design_coverage_percent": 100.0,
+        "test_case_ids": [
+          "TC-016",
+          "TC-017",
+          "TC-018",
+          "TC-019",
+          "TC-020",
+          "TC-021"
+        ],
+        "architecture_mapping_status": "candidate_requires_review",
+        "architecture_mappings": [
+          {
+            "candidate_service": "PaymentService",
+            "match_status": "candidate",
+            "score": 0.95,
+            "requires_review": true
+          }
+        ]
+      }
+    ],
+    "contract_element_coverage": [
+      {
+        "element_id": "createPayment:operation",
+        "element_type": "operation",
+        "description": "POST /payments",
+        "operation_id": "createPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-001",
+          "TC-002",
+          "TC-003",
+          "TC-004",
+          "TC-005",
+          "TC-006",
+          "TC-007",
+          "TC-008",
+          "TC-009",
+          "TC-010",
+          "TC-011",
+          "TC-012",
+          "TC-013"
+        ],
+        "candidate_test_case_ids": [
+          "TC-014",
+          "TC-015"
+        ]
+      },
+      {
+        "element_id": "createPayment:request_property:amount",
+        "element_type": "request_property",
+        "description": "Request property 'amount'",
+        "operation_id": "createPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-011"
+        ],
+        "candidate_test_case_ids": []
+      },
+      {
+        "element_id": "createPayment:property:amount:minimum",
+        "element_type": "constraint",
+        "description": "minimum constraint for 'amount' (0.01)",
+        "operation_id": "createPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-002",
+          "TC-003"
+        ],
+        "candidate_test_case_ids": []
+      },
+      {
+        "element_id": "createPayment:property:amount:maximum",
+        "element_type": "constraint",
+        "description": "maximum constraint for 'amount' (100000)",
+        "operation_id": "createPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-004",
+          "TC-005"
+        ],
+        "candidate_test_case_ids": []
+      },
+      {
+        "element_id": "createPayment:request_property:currency",
+        "element_type": "request_property",
+        "description": "Request property 'currency'",
+        "operation_id": "createPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-012"
+        ],
+        "candidate_test_case_ids": []
+      },
+      {
+        "element_id": "createPayment:property:currency:enum",
+        "element_type": "constraint",
+        "description": "Allowed values for 'currency': PEN, USD",
+        "operation_id": "createPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-006",
+          "TC-007",
+          "TC-008"
+        ],
+        "candidate_test_case_ids": []
+      },
+      {
+        "element_id": "createPayment:request_property:description",
+        "element_type": "request_property",
+        "description": "Request property 'description'",
+        "operation_id": "createPayment",
+        "status": "uncovered",
+        "confirmed_test_case_ids": [],
+        "candidate_test_case_ids": []
+      },
+      {
+        "element_id": "createPayment:property:description:max_length",
+        "element_type": "constraint",
+        "description": "max_length constraint for 'description' (140)",
+        "operation_id": "createPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-009",
+          "TC-010"
+        ],
+        "candidate_test_case_ids": []
+      },
+      {
+        "element_id": "createPayment:response:201",
+        "element_type": "response",
+        "description": "Documented HTTP response 201",
+        "operation_id": "createPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-001",
+          "TC-002",
+          "TC-004",
+          "TC-006",
+          "TC-007",
+          "TC-009"
+        ],
+        "candidate_test_case_ids": []
+      },
+      {
+        "element_id": "createPayment:response:400",
+        "element_type": "response",
+        "description": "Documented HTTP response 400",
+        "operation_id": "createPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-003",
+          "TC-005",
+          "TC-008",
+          "TC-010",
+          "TC-011",
+          "TC-012"
+        ],
+        "candidate_test_case_ids": []
+      },
+      {
+        "element_id": "createPayment:response:401",
+        "element_type": "response",
+        "description": "Documented HTTP response 401",
+        "operation_id": "createPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-013"
+        ],
+        "candidate_test_case_ids": []
+      },
+      {
+        "element_id": "createPayment:security",
+        "element_type": "security",
+        "description": "Operation requires authentication/security",
+        "operation_id": "createPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-013"
+        ],
+        "candidate_test_case_ids": []
+      },
+      {
+        "element_id": "getPayment:operation",
+        "element_type": "operation",
+        "description": "GET /payments/{paymentId}",
+        "operation_id": "getPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-016",
+          "TC-017",
+          "TC-018",
+          "TC-019"
+        ],
+        "candidate_test_case_ids": [
+          "TC-020",
+          "TC-021"
+        ]
+      },
+      {
+        "element_id": "getPayment:parameter:path:paymentId",
+        "element_type": "parameter",
+        "description": "path parameter 'paymentId'",
+        "operation_id": "getPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-016",
+          "TC-018"
+        ],
+        "candidate_test_case_ids": []
+      },
+      {
+        "element_id": "getPayment:parameter:paymentId:format:uuid",
+        "element_type": "constraint",
+        "description": "Format uuid for parameter 'paymentId'",
+        "operation_id": "getPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-016",
+          "TC-018"
+        ],
+        "candidate_test_case_ids": []
+      },
+      {
+        "element_id": "getPayment:response:200",
+        "element_type": "response",
+        "description": "Documented HTTP response 200",
+        "operation_id": "getPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-016"
+        ],
+        "candidate_test_case_ids": []
+      },
+      {
+        "element_id": "getPayment:response:404",
+        "element_type": "response",
+        "description": "Documented HTTP response 404",
+        "operation_id": "getPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-017"
+        ],
+        "candidate_test_case_ids": []
+      },
+      {
+        "element_id": "getPayment:security",
+        "element_type": "security",
+        "description": "Operation requires authentication/security",
+        "operation_id": "getPayment",
+        "status": "covered",
+        "confirmed_test_case_ids": [
+          "TC-019"
+        ],
+        "candidate_test_case_ids": []
+      }
+    ],
+    "uncovered_elements": [
+      {
+        "element_id": "createPayment:request_property:description",
+        "element_type": "request_property",
+        "description": "Request property 'description'",
+        "operation_id": "createPayment",
+        "status": "uncovered",
+        "confirmed_test_case_ids": [],
+        "candidate_test_case_ids": []
+      }
+    ],
+    "candidate_only_elements": [],
+    "test_case_traceability": [
+      {
+        "test_case_id": "TC-001",
+        "operation_id": "createPayment",
+        "category": "positive",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:response:201"
+        ]
+      },
+      {
+        "test_case_id": "TC-002",
+        "operation_id": "createPayment",
+        "category": "positive",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:amount:minimum",
+          "createPayment:response:201"
+        ]
+      },
+      {
+        "test_case_id": "TC-003",
+        "operation_id": "createPayment",
+        "category": "negative",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:amount:minimum",
+          "createPayment:response:400"
+        ]
+      },
+      {
+        "test_case_id": "TC-004",
+        "operation_id": "createPayment",
+        "category": "positive",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:amount:maximum",
+          "createPayment:response:201"
+        ]
+      },
+      {
+        "test_case_id": "TC-005",
+        "operation_id": "createPayment",
+        "category": "negative",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:amount:maximum",
+          "createPayment:response:400"
+        ]
+      },
+      {
+        "test_case_id": "TC-006",
+        "operation_id": "createPayment",
+        "category": "positive",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:currency:enum",
+          "createPayment:response:201"
+        ]
+      },
+      {
+        "test_case_id": "TC-007",
+        "operation_id": "createPayment",
+        "category": "positive",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:currency:enum",
+          "createPayment:response:201"
+        ]
+      },
+      {
+        "test_case_id": "TC-008",
+        "operation_id": "createPayment",
+        "category": "negative",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:currency:enum",
+          "createPayment:response:400"
+        ]
+      },
+      {
+        "test_case_id": "TC-009",
+        "operation_id": "createPayment",
+        "category": "positive",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:description:max_length",
+          "createPayment:response:201"
+        ]
+      },
+      {
+        "test_case_id": "TC-010",
+        "operation_id": "createPayment",
+        "category": "negative",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:property:description:max_length",
+          "createPayment:response:400"
+        ]
+      },
+      {
+        "test_case_id": "TC-011",
+        "operation_id": "createPayment",
+        "category": "negative",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:request_property:amount",
+          "createPayment:response:400"
+        ]
+      },
+      {
+        "test_case_id": "TC-012",
+        "operation_id": "createPayment",
+        "category": "negative",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:request_property:currency",
+          "createPayment:response:400"
+        ]
+      },
+      {
+        "test_case_id": "TC-013",
+        "operation_id": "createPayment",
+        "category": "security",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "createPayment:operation",
+          "createPayment:response:401",
+          "createPayment:security"
+        ]
+      },
+      {
+        "test_case_id": "TC-014",
+        "operation_id": "createPayment",
+        "category": "integration_candidate",
+        "traceability_status": "architecture_candidate_requires_review",
+        "contract_element_ids": [
+          "createPayment:operation"
+        ]
+      },
+      {
+        "test_case_id": "TC-015",
+        "operation_id": "createPayment",
+        "category": "integration_candidate",
+        "traceability_status": "architecture_candidate_requires_review",
+        "contract_element_ids": [
+          "createPayment:operation"
+        ]
+      },
+      {
+        "test_case_id": "TC-016",
+        "operation_id": "getPayment",
+        "category": "positive",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "getPayment:operation",
+          "getPayment:parameter:path:paymentId",
+          "getPayment:parameter:paymentId:format:uuid",
+          "getPayment:response:200"
+        ]
+      },
+      {
+        "test_case_id": "TC-017",
+        "operation_id": "getPayment",
+        "category": "negative",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "getPayment:operation",
+          "getPayment:response:404"
+        ]
+      },
+      {
+        "test_case_id": "TC-018",
+        "operation_id": "getPayment",
+        "category": "negative",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "getPayment:operation",
+          "getPayment:parameter:path:paymentId",
+          "getPayment:parameter:paymentId:format:uuid"
+        ]
+      },
+      {
+        "test_case_id": "TC-019",
+        "operation_id": "getPayment",
+        "category": "security",
+        "traceability_status": "linked_to_contract",
+        "contract_element_ids": [
+          "getPayment:operation",
+          "getPayment:security"
+        ]
+      },
+      {
+        "test_case_id": "TC-020",
+        "operation_id": "getPayment",
+        "category": "integration_candidate",
+        "traceability_status": "architecture_candidate_requires_review",
+        "contract_element_ids": [
+          "getPayment:operation"
+        ]
+      },
+      {
+        "test_case_id": "TC-021",
+        "operation_id": "getPayment",
+        "category": "integration_candidate",
+        "traceability_status": "architecture_candidate_requires_review",
+        "contract_element_ids": [
+          "getPayment:operation"
+        ]
+      }
+    ],
+    "architecture_traceability": {
+      "endpoint_service_mappings": [
+        {
+          "endpoint": "POST /payments",
+          "operation_id": "createPayment",
+          "candidate_service": "PaymentService",
+          "match_method": "name_tag_path_similarity",
+          "match_status": "candidate",
+          "evidence": [
+            "Token overlap 'payment' between service 'PaymentService' and '/payments'.",
+            "Token overlap 'payment' between service 'PaymentService' and 'createPayment'.",
+            "Token overlap 'payment' between service 'PaymentService' and 'Payments'."
+          ],
+          "requires_review": true,
+          "score": 0.95,
+          "score_interpretation": "heuristic_match_score"
+        },
+        {
+          "endpoint": "GET /payments/{paymentId}",
+          "operation_id": "getPayment",
+          "candidate_service": "PaymentService",
+          "match_method": "name_tag_path_similarity",
+          "match_status": "candidate",
+          "evidence": [
+            "Token overlap 'payment' between service 'PaymentService' and '/payments/{paymentId}'.",
+            "Token overlap 'payment' between service 'PaymentService' and 'getPayment'.",
+            "Token overlap 'payment' between service 'PaymentService' and 'Payments'."
+          ],
+          "requires_review": true,
+          "score": 0.95,
+          "score_interpretation": "heuristic_match_score"
+        }
+      ],
+      "service_dependencies": [
+        {
+          "service": "AuthService",
+          "dependency": "AuthDB",
+          "dependency_type": "database",
+          "relationship": "writes_to",
+          "direction": "unknown",
+          "source": "architecture_diagram",
+          "evidence": "Arrow from AuthService to AuthDB",
+          "requires_review": true
+        },
+        {
+          "service": "OrderService",
+          "dependency": "OrderDB",
+          "dependency_type": "database",
+          "relationship": "writes_to",
+          "direction": "unknown",
+          "source": "architecture_diagram",
+          "evidence": "Arrow from OrderService to OrderDB",
+          "requires_review": true
+        },
+        {
+          "service": "PaymentService",
+          "dependency": "PaymentDB",
+          "dependency_type": "database",
+          "relationship": "writes_to",
+          "direction": "unknown",
+          "source": "architecture_diagram",
+          "evidence": "Arrow from PaymentService to PaymentDB",
+          "requires_review": true
+        }
+      ],
+      "confirmed_mapping_count": 0,
+      "candidate_mapping_count": 2,
+      "unmapped_services": [
+        "AuthService",
+        "OrderService"
+      ],
+      "unmapped_architecture_components": [
+        "API-Gateway",
+        "User"
+      ],
+      "review_required": true,
+      "note": "Los mapeos heurísticos y las conexiones visuales no son relaciones confirmadas ni aumentan la cobertura funcional."
+    },
+    "limitations": [
+      "Mide cobertura de diseño; no ejecuta pruebas.",
+      "Las relaciones de arquitectura candidatas requieren validación humana.",
+      "No infiere reglas de negocio ausentes en los artefactos.",
+      "La cobertura se limita a los elementos extraídos del contrato y a la trazabilidad declarada por cada caso."
+    ]
+  },
+  "review_required": [
+    {
+      "type": "endpoint_service_mapping",
+      "subject": "POST /payments",
+      "candidate": "PaymentService",
+      "status": "candidate",
+      "reason": "La asociación se basa en similitud heurística y requiere validación."
+    },
+    {
+      "type": "endpoint_service_mapping",
+      "subject": "GET /payments/{paymentId}",
+      "candidate": "PaymentService",
+      "status": "candidate",
+      "reason": "La asociación se basa en similitud heurística y requiere validación."
+    },
+    {
+      "type": "service_dependency",
+      "subject": "AuthService",
+      "candidate": "AuthDB",
+      "status": "requires_review",
+      "reason": "La conexión visual no confirma semántica de lectura o escritura."
+    },
+    {
+      "type": "service_dependency",
+      "subject": "OrderService",
+      "candidate": "OrderDB",
+      "status": "requires_review",
+      "reason": "La conexión visual no confirma semántica de lectura o escritura."
+    },
+    {
+      "type": "service_dependency",
+      "subject": "PaymentService",
+      "candidate": "PaymentDB",
+      "status": "requires_review",
+      "reason": "La conexión visual no confirma semántica de lectura o escritura."
+    },
+    {
+      "type": "uncovered_contract_element",
+      "subject": "createPayment:request_property:description",
+      "candidate": null,
+      "status": "uncovered",
+      "reason": "Request property 'description'"
+    }
+  ],
+  "conclusions": [
+    "Se analizaron 2 operaciones del contrato.",
+    "Se consolidaron 21 casos de prueba diseñados.",
+    "La cobertura de diseño del contrato es 94.44%; este valor no representa ejecución de pruebas.",
+    "Se identificaron 6 elementos que requieren revisión o atención antes de considerar cerrado el diseño."
+  ],
+  "global_limitations": [
+    "El informe consolida resultados de análisis y diseño; no ejecuta pruebas.",
+    "Los mapeos entre endpoints y servicios son candidatos hasta su validación.",
+    "Las relaciones entre servicios y bases de datos no prueban operaciones de lectura o escritura.",
+    "No se infieren reglas de negocio que no estén presentes en los artefactos de entrada.",
+    "La cobertura depende de los elementos extraídos y de la trazabilidad declarada por los casos."
+  ],
+  "input_artifacts": {
+    "openapi": "openapi_analysis.json",
+    "architecture": "architecture_analysis.json",
+    "correlation": "correlation_analysis.json",
+    "test_cases": "test_cases.json",
+    "coverage": "coverage_report.json"
+  }
+}

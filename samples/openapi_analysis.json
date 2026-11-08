@@ -1,0 +1,381 @@
+{
+  "contract": {
+    "title": "Payments API",
+    "version": "1.0.0",
+    "openapi_version": "3.0.3",
+    "servers": [
+      "https://api.example.test"
+    ]
+  },
+  "validation": {
+    "valid": true,
+    "validator": "openapi-spec-validator",
+    "errors": []
+  },
+  "inventory": {
+    "endpoint_count": 2,
+    "method_counts": {
+      "GET": 1,
+      "POST": 1
+    },
+    "tags": [
+      "Payments"
+    ],
+    "parameter_count": 1,
+    "request_body_property_count": 3,
+    "response_status_codes": [
+      "200",
+      "201",
+      "400",
+      "401",
+      "404"
+    ],
+    "secured_operation_count": 2,
+    "deprecated_operation_count": 0
+  },
+  "operations": [
+    {
+      "operation_id": "createPayment",
+      "summary": "Create a payment",
+      "description": "",
+      "path": "/payments",
+      "method": "POST",
+      "tags": [
+        "Payments"
+      ],
+      "deprecated": false,
+      "parameters": [],
+      "request_body": {
+        "required": true,
+        "content": [
+          {
+            "media_type": "application/json",
+            "schema": {
+              "type": "object",
+              "format": null,
+              "description": "",
+              "required_fields": [
+                "amount",
+                "currency"
+              ],
+              "properties": [
+                {
+                  "name": "amount",
+                  "type": "number",
+                  "format": null,
+                  "required": true,
+                  "enum": null,
+                  "minimum": 0.01,
+                  "maximum": 100000,
+                  "min_length": null,
+                  "max_length": null,
+                  "pattern": null,
+                  "nullable": false
+                },
+                {
+                  "name": "currency",
+                  "type": "string",
+                  "format": null,
+                  "required": true,
+                  "enum": [
+                    "PEN",
+                    "USD"
+                  ],
+                  "minimum": null,
+                  "maximum": null,
+                  "min_length": null,
+                  "max_length": null,
+                  "pattern": null,
+                  "nullable": false
+                },
+                {
+                  "name": "description",
+                  "type": "string",
+                  "format": null,
+                  "required": false,
+                  "enum": null,
+                  "minimum": null,
+                  "maximum": null,
+                  "min_length": null,
+                  "max_length": 140,
+                  "pattern": null,
+                  "nullable": false
+                }
+              ],
+              "enum": null,
+              "minimum": null,
+              "maximum": null,
+              "min_length": null,
+              "max_length": null,
+              "pattern": null,
+              "one_of_count": 0,
+              "any_of_count": 0,
+              "all_of_count": 0
+            }
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status_code": "201",
+          "description": "Created",
+          "content": [
+            {
+              "media_type": "application/json",
+              "schema": {
+                "type": "object",
+                "format": null,
+                "description": "",
+                "required_fields": [
+                  "amount",
+                  "currency",
+                  "id",
+                  "status"
+                ],
+                "properties": [
+                  {
+                    "name": "id",
+                    "type": "string",
+                    "format": "uuid",
+                    "required": true,
+                    "enum": null,
+                    "minimum": null,
+                    "maximum": null,
+                    "min_length": null,
+                    "max_length": null,
+                    "pattern": null,
+                    "nullable": false
+                  },
+                  {
+                    "name": "amount",
+                    "type": "number",
+                    "format": null,
+                    "required": true,
+                    "enum": null,
+                    "minimum": null,
+                    "maximum": null,
+                    "min_length": null,
+                    "max_length": null,
+                    "pattern": null,
+                    "nullable": false
+                  },
+                  {
+                    "name": "currency",
+                    "type": "string",
+                    "format": null,
+                    "required": true,
+                    "enum": [
+                      "PEN",
+                      "USD"
+                    ],
+                    "minimum": null,
+                    "maximum": null,
+                    "min_length": null,
+                    "max_length": null,
+                    "pattern": null,
+                    "nullable": false
+                  },
+                  {
+                    "name": "status",
+                    "type": "string",
+                    "format": null,
+                    "required": true,
+                    "enum": [
+                      "PENDING",
+                      "APPROVED",
+                      "REJECTED"
+                    ],
+                    "minimum": null,
+                    "maximum": null,
+                    "min_length": null,
+                    "max_length": null,
+                    "pattern": null,
+                    "nullable": false
+                  }
+                ],
+                "enum": null,
+                "minimum": null,
+                "maximum": null,
+                "min_length": null,
+                "max_length": null,
+                "pattern": null,
+                "one_of_count": 0,
+                "any_of_count": 0,
+                "all_of_count": 0
+              }
+            }
+          ]
+        },
+        {
+          "status_code": "400",
+          "description": "Invalid request",
+          "content": []
+        },
+        {
+          "status_code": "401",
+          "description": "Unauthorized",
+          "content": []
+        }
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ]
+    },
+    {
+      "operation_id": "getPayment",
+      "summary": "",
+      "description": "",
+      "path": "/payments/{paymentId}",
+      "method": "GET",
+      "tags": [
+        "Payments"
+      ],
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "paymentId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid",
+            "description": "",
+            "required_fields": [],
+            "properties": [],
+            "enum": null,
+            "minimum": null,
+            "maximum": null,
+            "min_length": null,
+            "max_length": null,
+            "pattern": null,
+            "one_of_count": 0,
+            "any_of_count": 0,
+            "all_of_count": 0
+          }
+        }
+      ],
+      "request_body": {
+        "required": false,
+        "content": []
+      },
+      "responses": [
+        {
+          "status_code": "200",
+          "description": "Found",
+          "content": [
+            {
+              "media_type": "application/json",
+              "schema": {
+                "type": "object",
+                "format": null,
+                "description": "",
+                "required_fields": [
+                  "amount",
+                  "currency",
+                  "id",
+                  "status"
+                ],
+                "properties": [
+                  {
+                    "name": "id",
+                    "type": "string",
+                    "format": "uuid",
+                    "required": true,
+                    "enum": null,
+                    "minimum": null,
+                    "maximum": null,
+                    "min_length": null,
+                    "max_length": null,
+                    "pattern": null,
+                    "nullable": false
+                  },
+                  {
+                    "name": "amount",
+                    "type": "number",
+                    "format": null,
+                    "required": true,
+                    "enum": null,
+                    "minimum": null,
+                    "maximum": null,
+                    "min_length": null,
+                    "max_length": null,
+                    "pattern": null,
+                    "nullable": false
+                  },
+                  {
+                    "name": "currency",
+                    "type": "string",
+                    "format": null,
+                    "required": true,
+                    "enum": [
+                      "PEN",
+                      "USD"
+                    ],
+                    "minimum": null,
+                    "maximum": null,
+                    "min_length": null,
+                    "max_length": null,
+                    "pattern": null,
+                    "nullable": false
+                  },
+                  {
+                    "name": "status",
+                    "type": "string",
+                    "format": null,
+                    "required": true,
+                    "enum": [
+                      "PENDING",
+                      "APPROVED",
+                      "REJECTED"
+                    ],
+                    "minimum": null,
+                    "maximum": null,
+                    "min_length": null,
+                    "max_length": null,
+                    "pattern": null,
+                    "nullable": false
+                  }
+                ],
+                "enum": null,
+                "minimum": null,
+                "maximum": null,
+                "min_length": null,
+                "max_length": null,
+                "pattern": null,
+                "one_of_count": 0,
+                "any_of_count": 0,
+                "all_of_count": 0
+              }
+            }
+          ]
+        },
+        {
+          "status_code": "404",
+          "description": "Not found",
+          "content": []
+        }
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ]
+    }
+  ],
+  "analysis_scope": {
+    "included": [
+      "methods and paths",
+      "parameters",
+      "request and response schemas",
+      "required fields, enums, formats and constraints",
+      "security and tags"
+    ],
+    "limitations": [
+      "External $ref files are not resolved.",
+      "Business rules absent from the contract cannot be inferred.",
+      "Structural inventory is not proof of executed test coverage."
+    ]
+  }
+}

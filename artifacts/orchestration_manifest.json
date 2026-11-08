@@ -1,0 +1,64 @@
+{
+  "analysis_type": "qa_orchestration_execution",
+  "status": "completed",
+  "generated_at_utc": "2026-11-08T05:50:58.342005+00:00",
+  "model": "qwen2.5vl:3b",
+  "project_root": "C:\\Users\\Usuario\\Desktop\\ai-api-test-designer-starter",
+  "stages": [
+    {
+      "stage": "OpenAPI Analyzer",
+      "status": "completed",
+      "duration_seconds": 3.0,
+      "output": "C:\\Users\\Usuario\\Desktop\\ai-api-test-designer-starter\\artifacts\\openapi_analysis.json",
+      "return_code": 0
+    },
+    {
+      "stage": "Architecture Vision Analyzer",
+      "status": "completed",
+      "duration_seconds": 248.73,
+      "output": "C:\\Users\\Usuario\\Desktop\\ai-api-test-designer-starter\\artifacts\\architecture_analysis.json",
+      "return_code": 0
+    },
+    {
+      "stage": "Contract-Architecture Correlator",
+      "status": "completed",
+      "duration_seconds": 0.19,
+      "output": "C:\\Users\\Usuario\\Desktop\\ai-api-test-designer-starter\\artifacts\\correlation_analysis.json",
+      "return_code": 0
+    },
+    {
+      "stage": "Test Case Generator",
+      "status": "completed",
+      "duration_seconds": 237.62,
+      "output": "C:\\Users\\Usuario\\Desktop\\ai-api-test-designer-starter\\artifacts\\test_cases.json",
+      "return_code": 0
+    },
+    {
+      "stage": "Coverage & Traceability Engine",
+      "status": "completed",
+      "duration_seconds": 0.16,
+      "output": "C:\\Users\\Usuario\\Desktop\\ai-api-test-designer-starter\\artifacts\\coverage_report.json",
+      "return_code": 0
+    },
+    {
+      "stage": "Report Generator",
+      "status": "completed",
+      "duration_seconds": 0.12,
+      "output": "C:\\Users\\Usuario\\Desktop\\ai-api-test-designer-starter\\artifacts\\test_design_report.json",
+      "return_code": 0
+    }
+  ],
+  "artifacts": {
+    "openapi": "C:\\Users\\Usuario\\Desktop\\ai-api-test-designer-starter\\artifacts\\openapi_analysis.json",
+    "architecture": "C:\\Users\\Usuario\\Desktop\\ai-api-test-designer-starter\\artifacts\\architecture_analysis.json",
+    "correlation": "C:\\Users\\Usuario\\Desktop\\ai-api-test-designer-starter\\artifacts\\correlation_analysis.json",
+    "test_cases": "C:\\Users\\Usuario\\Desktop\\ai-api-test-designer-starter\\artifacts\\test_cases.json",
+    "coverage": "C:\\Users\\Usuario\\Desktop\\ai-api-test-designer-starter\\artifacts\\coverage_report.json",
+    "report_json": "C:\\Users\\Usuario\\Desktop\\ai-api-test-designer-starter\\artifacts\\test_design_report.json",
+    "report_markdown": "C:\\Users\\Usuario\\Desktop\\ai-api-test-designer-starter\\artifacts\\test_design_report.md"
+  },
+  "semantics": {
+    "coverage": "design_coverage_not_execution_coverage",
+    "architecture_mappings": "candidate_mappings_require_human_validation"
+  }
+}

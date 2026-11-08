@@ -1,0 +1,65 @@
+openapi: 3.0.3
+info:
+  title: Payments API
+  version: 1.0.0
+servers:
+  - url: https://api.example.test
+security:
+  - BearerAuth: []
+paths:
+  /payments:
+    post:
+      operationId: createPayment
+      summary: Create a payment
+      tags: [Payments]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePaymentRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '400': {description: Invalid request}
+        '401': {description: Unauthorized}
+  /payments/{paymentId}:
+    get:
+      operationId: getPayment
+      tags: [Payments]
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          schema: {type: string, format: uuid}
+      responses:
+        '200':
+          description: Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '404': {description: Not found}
+components:
+  securitySchemes:
+    BearerAuth: {type: http, scheme: bearer}
+  schemas:
+    CreatePaymentRequest:
+      type: object
+      required: [amount, currency]
+      properties:
+        amount: {type: number, minimum: 0.01, maximum: 100000}
+        currency: {type: string, enum: [PEN, USD]}
+        description: {type: string, maxLength: 140}
+    Payment:
+      type: object
+      required: [id, amount, currency, status]
+      properties:
+        id: {type: string, format: uuid}
+        amount: {type: number}
+        currency: {type: string, enum: [PEN, USD]}
+        status: {type: string, enum: [PENDING, APPROVED, REJECTED]}

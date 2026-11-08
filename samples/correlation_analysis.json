@@ -1,0 +1,109 @@
+{
+  "analysis_type": "contract_architecture_correlation",
+  "sources": {
+    "openapi_analysis_type": "openapi_contract",
+    "architecture_analysis_type": "architecture_diagram",
+    "architecture_model": "qwen2.5vl:3b"
+  },
+  "summary": {
+    "total_operations": 2,
+    "total_services": 3,
+    "total_endpoint_service_mappings": 2,
+    "confirmed_mappings": 0,
+    "candidate_mappings": 2,
+    "unmapped_endpoints": 0,
+    "unmapped_services": 2,
+    "unmapped_architecture_components": 2
+  },
+  "endpoint_service_mappings": [
+    {
+      "endpoint": "POST /payments",
+      "operation_id": "createPayment",
+      "candidate_service": "PaymentService",
+      "match_method": "name_tag_path_similarity",
+      "match_status": "candidate",
+      "evidence": [
+        "Token overlap 'payment' between service 'PaymentService' and '/payments'.",
+        "Token overlap 'payment' between service 'PaymentService' and 'createPayment'.",
+        "Token overlap 'payment' between service 'PaymentService' and 'Payments'."
+      ],
+      "requires_review": true,
+      "score": 0.95,
+      "score_interpretation": "heuristic_match_score"
+    },
+    {
+      "endpoint": "GET /payments/{paymentId}",
+      "operation_id": "getPayment",
+      "candidate_service": "PaymentService",
+      "match_method": "name_tag_path_similarity",
+      "match_status": "candidate",
+      "evidence": [
+        "Token overlap 'payment' between service 'PaymentService' and '/payments/{paymentId}'.",
+        "Token overlap 'payment' between service 'PaymentService' and 'getPayment'.",
+        "Token overlap 'payment' between service 'PaymentService' and 'Payments'."
+      ],
+      "requires_review": true,
+      "score": 0.95,
+      "score_interpretation": "heuristic_match_score"
+    }
+  ],
+  "service_dependencies": [
+    {
+      "service": "AuthService",
+      "dependency": "AuthDB",
+      "dependency_type": "database",
+      "relationship": "writes_to",
+      "direction": "one_way",
+      "source": "architecture_diagram",
+      "evidence": "Arrow from AuthService to AuthDB",
+      "requires_review": true
+    },
+    {
+      "service": "OrderService",
+      "dependency": "OrderDB",
+      "dependency_type": "database",
+      "relationship": "writes_to",
+      "direction": "one_way",
+      "source": "architecture_diagram",
+      "evidence": "Arrow from OrderService to OrderDB",
+      "requires_review": true
+    },
+    {
+      "service": "PaymentService",
+      "dependency": "PaymentDB",
+      "dependency_type": "database",
+      "relationship": "writes_to",
+      "direction": "one_way",
+      "source": "architecture_diagram",
+      "evidence": "Arrow from PaymentService to PaymentDB",
+      "requires_review": true
+    }
+  ],
+  "unmapped_elements": {
+    "endpoints": [],
+    "services": [
+      "AuthService",
+      "OrderService"
+    ],
+    "architecture_components": [
+      "API-Gateway",
+      "User"
+    ]
+  },
+  "ambiguities": [
+    {
+      "element": "POST /payments",
+      "candidate": "PaymentService",
+      "reason": "Name/tag/path similarity does not prove service ownership."
+    },
+    {
+      "element": "GET /payments/{paymentId}",
+      "candidate": "PaymentService",
+      "reason": "Name/tag/path similarity does not prove service ownership."
+    }
+  ],
+  "warnings": [
+    "OpenAPI analysis_type was inferred from the input structure."
+  ],
+  "quality_note": "Candidate mappings are heuristic, not proof of implementation ownership. A database arrow indicates a dependency but does not prove read/write semantics."
+}
